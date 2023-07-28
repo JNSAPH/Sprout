@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import "./App.css";
-import animIdle from './assets/animations/idle/animIdle.mp4'
-import animIdleMove from './assets/animations/idle/animIdleMove.mp4'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './screens/Main/screen_main';
 
-function App() {
-  const [playAlternateVideo, setPlayAlternateVideo] = useState(false);
-
-  useEffect(() => {
-    // Set up an interval to toggle the video every 10 seconds (adjust as needed)
-    const interval = setInterval(() => {
-      setPlayAlternateVideo((prev) => !prev);
-    }, 10000); // 10000 milliseconds = 10 seconds
-
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(interval);
-  }, []);
-
+const NotFound: React.FC = () => {
   return (
-    <div className="container" data-tauri-drag-region>
-      <video autoPlay loop data-tauri-drag-region className="sproutBody">
-        <source src={playAlternateVideo ? animIdleMove : animIdle} type="video/mp4" />
-      </video>
+    <div>
+      <h1>404 - Not Found</h1>
+      <p>The page you are looking for doesn't exist.</p>
     </div>
   );
-}
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+    </Router>
+  );
+};
 
 export default App;
